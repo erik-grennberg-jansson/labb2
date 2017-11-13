@@ -1,91 +1,105 @@
 
 import java.util.*;
-public class BinHeap<E extends Comparable<? super E>>  implements PrioQueue<E>{
-
-    private ArrayList arrayRep;
-
+//public class BinHeap<E extends Comparable<? super E>>  implements PrioQueue<E>{
+public class BinHeap<E> implements PrioQueue<E>{
+    private ArrayList<E> arrayRep;
+    private Comparator<? super E> comp;
     
     public BinHeap(Comparator<? super E> comp) { 
 
-	arrayRep=new ArrayList();
+	arrayRep=new ArrayList<E>();
+	this.comp=comp;
 
     }
     public void add(E e){
 	arrayRep.add(e);
 
-
-
 	if(arrayRep.size()>1){
 	    int currentIndex=arrayRep.size()-1;
-	    boolean needForBubble=true;
-	    int parentIndex;
-	 
-	    while(needForBubble){
-		parentIndex=(currentIndex-1)/2;
-		if(comp.compare(arrayRep.get(currentIndex),arrayRep.get(parentIndex))<0){
-		    swap(currentIndex,parentIndex);
-		    currentIndex=parentIndex;
-		}
-		else{
-		    needForBubble=false;
-		}
-	    }
+	    bubbleUp(currentIndex);
 	}
     }
 
     public E peek(){
+	if(arrayRep.size()==0){
+	    return null;
+	}
 	return arrayRep.get(0);
-
-
-
     }
     public E poll(){
 	//	E result=arrayRep.remove(0);
+	if( arrayRep.size()==0){
+	    return null;
+	}else if(arrayRep.size()==1){
+	    return arrayRep.remove(0);
+	}
+	    
+	
 	swap(0,arrayRep.size()-1);
 	E result =arrayRep.remove(arrayRep.size()-1);
-	int currentIndex=0;
-	int childIndex;
-	while(true){
-	    childIndex=2*currentIndex+1;
-	    if(compare(arrayRep.get(childIndex),arrayRep.get(childIndex+1))>0){
-		childIndex++;
-	    }
-	    if(compare(arrayRep.get(childIndex),arrayRep.get(currentIndex))<0){
-		swap(currentIndex,childIndex);
-		currentIndex=parentIndex;
-
-	    }else{
-		break;
-	    }
-
-	    
-
-
-
-	}
 	
-	
+	bubbleDown(0);
+	return result;
     }
     // @Overridde 
     public void remove(E e){
-	for(int i=0;
+	if(arrayRep.size()==1){
+	    arrayRep.clear();
+	}else if(arrayRep.size()!=0){
+	    for(int i=0;i<arrayRep.size();i++){
+		if(comp.compare(e,arrayRep.get(i))==0){
+		    swap(i,arrayRep.size()-1);
+		    arrayRep.remove(arrayRep.size()-1);
+		    bubbleDown(i);
+		    break;
+		}
+	    }
+	}
+    }	
 	
-    }
+
     public void swap(int i,int j){
 	E temp=arrayRep.get(i);
 	arrayRep.set(i,arrayRep.get(j));
 	arrayRep.set(j,temp);
     }
+    public void bubbleUp(int startingIndex){
+	int parentIndex;
+	int currentIndex=startingIndex;
+	while(true){
+	    parentIndex=(currentIndex-1)/2;
+	    if(comp.compare(arrayRep.get(currentIndex),arrayRep.get(parentIndex))<0){
+		swap(currentIndex,parentIndex);
+		currentIndex=parentIndex;
+	    }else{
+		break;
+	    }
+	}
+    }
+    public void bubbleDown(int startingIndex){
+	int currentIndex=startingIndex;
+	int childIndex;
+	while(true){
+	    childIndex=2*currentIndex+1;
+	    if(comp.compare(arrayRep.get(childIndex),arrayRep.get(childIndex+1))>0){
+		childIndex++;
+	    }
+	    if(comp.compare(arrayRep.get(childIndex),arrayRep.get(currentIndex))<0){
+		swap(currentIndex,childIndex);
+		currentIndex=childIndex;
 
-    /*    public static void bubble(){
-      int insertedIndex=arrayRep.size()-1;
-      }*/
+	    }else{
+		break;
+	    }
+	}
+	
+    }
     public Iterator<E> iterator() {
 	Iterator<E> it =new Iterator<E>(){
 	    private int currentIndex=0;
 	    @Override
 	    public boolean hasNext() {
-		return currentIndex<arrayRep.size-1;
+		return currentIndex<arrayRep.size()-1;
 	    }
 	    @Override
 	    public E next(){
@@ -93,12 +107,15 @@ public class BinHeap<E extends Comparable<? super E>>  implements PrioQueue<E>{
 	    }
 	    @Override
 	    public void remove(){
-		throw new UnsupportedOperationExpection();
+		throw new UnsupportedOperationException();
 	    }
 	};
 	return it;
     }
+
 }
+//
+//
 	
 	
 	
