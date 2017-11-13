@@ -1,6 +1,4 @@
 
-
-
 import java.util.*;
 public class BinHeap<E extends Comparable<? super E>>  implements PrioQueue<E>{
 
@@ -17,14 +15,18 @@ public class BinHeap<E extends Comparable<? super E>>  implements PrioQueue<E>{
 
 
 
-	if(arrayRep.size()>0){
-	    this.bubble;
-
-
-
-	    int insertedIndex=arrayRep.size()-1;
-
-	    int parentIndex=
+	if(arrayRep.size()>1){
+	    int currentIndex=arrayRep.size()-1;
+	    boolean needForBubble=true;
+	    
+	 
+	    while(needForBubble){
+		int parentIndex=(currentIndex-1)/2;
+		if(comp.compare(arrayRep.get(currentIndex),arrayRep.get(parentIndex))<0){
+		    swap(currentIndex,parentIndex);
+		    currentIndex=parentIndex;
+		}
+	    }
 	}
     }
 
@@ -36,20 +38,25 @@ public class BinHeap<E extends Comparable<? super E>>  implements PrioQueue<E>{
 
 
     }
+    public E poll(){
     public void remove(E e){
 	
 	
     }
-    public static void bubble()
-	
-	
-	
-	
-	
-	
+    public void swap(int i,int j){
+	E temp=arrayRep.get(i);
+	arrayRep.set(i,arrayRep.get(j));
+	arrayRep.set(j,temp);
+    }
 
-
-	}
+    /*    public static void bubble(){
+      int insertedIndex=arrayRep.size()-1;
+      }*/
+}
+	
+	
+	
+ 
 
 
 
