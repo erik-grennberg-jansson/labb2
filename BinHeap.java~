@@ -22,7 +22,6 @@ public class BinHeap<E> implements PrioQueue<E>{
 
     public E peek(){
 	if(arrayRep.size()==0){
-	    System.out.println("heil");
 	    return null;
 	}
 	return arrayRep.get(0);
@@ -31,20 +30,29 @@ public class BinHeap<E> implements PrioQueue<E>{
 	//	E result=arrayRep.remove(0);
 	if( arrayRep.size()==0){
 	    return null;
+	}else if(arrayRep.size()==1){
+	    return arrayRep.remove(0);
 	}
+	    
+	
 	swap(0,arrayRep.size()-1);
 	E result =arrayRep.remove(arrayRep.size()-1);
+	
 	bubbleDown(0);
 	return result;
     }
     // @Overridde 
     public void remove(E e){
-	for(int i=0;i<arrayRep.size();i++){
-	    if(comp.compare(e,arrayRep.get(i))==0){
-		swap(i,arrayRep.size()-1);
-		arrayRep.remove(arrayRep.size()-1);
-		bubbleDown(i);
-		break;
+	if(arrayRep.size()==1){
+	    arrayRep.clear();
+	}else if(arrayRep.size()!=0){
+	    for(int i=0;i<arrayRep.size();i++){
+		if(comp.compare(e,arrayRep.get(i))==0){
+		    swap(i,arrayRep.size()-1);
+		    arrayRep.remove(arrayRep.size()-1);
+		    bubbleDown(i);
+		    break;
+		}
 	    }
 	}
     }	
@@ -86,8 +94,13 @@ public class BinHeap<E> implements PrioQueue<E>{
 	}
 	
     }
-    public Iterator<E> iterator() {
-	Iterator<E> it =new Iterator<E>(){
+    public Iterator<E> iterator(){
+	return new iterator();
+    }
+
+    
+    private class iterator implements Iterator<E> {
+       
 	    private int currentIndex=0;
 	    @Override
 	    public boolean hasNext() {
@@ -95,15 +108,19 @@ public class BinHeap<E> implements PrioQueue<E>{
 	    }
 	    @Override
 	    public E next(){
-		return arrayRep.get(currentIndex++);
+		if(! hasNext()){ throw new NoSuchElementException();}
+		else{return arrayRep.get(currentIndex++);}
 	    }
 	    @Override
 	    public void remove(){
 		throw new UnsupportedOperationException();
 	    }
-	};
-	return it;
+	
+      
     }
+    
+	
+   
 
 }
 //

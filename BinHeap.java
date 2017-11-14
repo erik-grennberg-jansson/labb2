@@ -94,24 +94,40 @@ public class BinHeap<E> implements PrioQueue<E>{
 	}
 	
     }
-    public Iterator<E> iterator() {
-	Iterator<E> it =new Iterator<E>(){
-	    private int currentIndex=0;
+    
+      public Iterator<E> iterator(){
+	  // public iterator(){
+	  return new iterator();
+      }
+
+    
+    private class iterator implements Iterator<E> {
+       
+	    private int currentIndex;
+	    public iterator(){
+		currentIndex=0;
+	    }
+
 	    @Override
 	    public boolean hasNext() {
 		return currentIndex<arrayRep.size()-1;
 	    }
+	   
 	    @Override
 	    public E next(){
-		return arrayRep.get(currentIndex++);
+		if(! hasNext()){ throw new NoSuchElementException();}
+		else{return arrayRep.get(currentIndex++);}
 	    }
 	    @Override
 	    public void remove(){
 		throw new UnsupportedOperationException();
 	    }
-	};
-	return it;
+	
+      
     }
+    
+	
+   
 
 }
 //
