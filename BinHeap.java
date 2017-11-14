@@ -31,26 +31,44 @@ public class BinHeap<E> implements PrioQueue<E>{
 	if( arrayRep.size()==0){
 	    return null;
 	}else if(arrayRep.size()==1){
-	    return arrayRep.remove(0);
+	    E result=arrayRep.get(0);
+	    arrayRep.remove(result);
+	    return result;
 	}
 	    
-	
+      
+  
 	swap(0,arrayRep.size()-1);
 	E result =arrayRep.remove(arrayRep.size()-1);
 	
 	bubbleDown(0);
+	
+   
+	
 	return result;
     }
     // @Overridde 
     public void remove(E e){
 	if(arrayRep.size()==1){
-	    arrayRep.clear();
+		if(comp.compare(arrayRep.get(0),e)==0){
+		    arrayRep.clear();
+		}
+		return;
+	    
+
 	}else if(arrayRep.size()!=0){
 	    for(int i=0;i<arrayRep.size();i++){
 		if(comp.compare(e,arrayRep.get(i))==0){
 		    swap(i,arrayRep.size()-1);
-		    arrayRep.remove(arrayRep.size()-1);
-		    bubbleDown(i);
+		    E tmp = arrayRep.remove(arrayRep.size()-1);
+		    if(comp.compare(tmp,arrayRep.get(i))>0){
+			System.out.println("ey");
+			bubbleDown(i);
+		    }else if(comp.compare(tmp,arrayRep.get(i))<0){
+			System.out.println("yeeyeyeyey");
+			bubbleUp(i);
+		    }// else
+			//	bubbleDown(i);
 		    break;
 		}
 	    }
@@ -79,24 +97,28 @@ public class BinHeap<E> implements PrioQueue<E>{
     public void bubbleDown(int startingIndex){
 	int currentIndex=startingIndex;
 	int childIndex;
-	while(true){
-	    childIndex=2*currentIndex+1;
-	    if(comp.compare(arrayRep.get(childIndex),arrayRep.get(childIndex+1))>0){
-		childIndex++;
-	    }
-	    if(comp.compare(arrayRep.get(childIndex),arrayRep.get(currentIndex))<0){
-		swap(currentIndex,childIndex);
-		currentIndex=childIndex;
+	if(arrayRep.size()>1){
+	    while(2*currentIndex+1<arrayRep.size()){
+		childIndex=2*currentIndex+1;
+		int temp = childIndex+1;
+		if(  (temp<arrayRep.size()) &&
+		   (comp.compare(arrayRep.get(childIndex),arrayRep.get(childIndex+1))>0)){
+		    childIndex++;
+		}
+		if(comp.compare(arrayRep.get(childIndex),arrayRep.get(currentIndex))<0){
+		    swap(currentIndex,childIndex);
+		    currentIndex=childIndex;
 
-	    }else{
-		break;
+		}else{ break;}
+		   
 	    }
+	    return;
 	}
+	return;
 	
     }
     
       public Iterator<E> iterator(){
-	  // public iterator(){
 	  return new iterator();
       }
 
@@ -110,7 +132,7 @@ public class BinHeap<E> implements PrioQueue<E>{
 
 	    @Override
 	    public boolean hasNext() {
-		return currentIndex<arrayRep.size()-1;
+		return currentIndex<arrayRep.size();
 	    }
 	   
 	    @Override
