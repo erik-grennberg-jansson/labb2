@@ -68,16 +68,6 @@ public class BinHeap<E> implements PrioQueue<E>{
 					return;
 				}
 				break;
-				/*
-				if(comp.compare(tmp,arrayRep.get(i))>0){
-				System.out.println("ey");
-				bubbleDown(i);
-				}else if(comp.compare(tmp,arrayRep.get(i))<0){
-				System.out.println("yeeyeyeyey");
-				bubbleUp(i);
-				}// else
-				//	bubbleDown(i);
-				break;*/	
 			}
 	   }
 	   return;
