@@ -4,9 +4,13 @@ public class StockTrade {
     private PrioQueue<Bid> sellersQueue;
     private PrioQueue<Bid> buyersQueue;
 
-    public StockTrade() { ... }
+    public StockTrade() {
+        sellersQueue=new BinHeap(/*TODO ARGUMENT*/);
+        buyersQueue = new BinHeap(/*TODO ARGUMENT*/);
+        
+    }
 
-    public Transaction placeSellBid(Bid bid) { sellersQueue = new BinHeap(new ); }
+    public Transaction placeSellBid(Bid bid) {  }
     public Transaction placeBuyBid(Bid bid) { }
 
     public Iterator<Bid> sellBidsIterator() {
