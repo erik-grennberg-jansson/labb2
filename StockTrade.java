@@ -1,4 +1,6 @@
 import java.util.Iterator;
+import java.util.Comparator;
+
 
 public class StockTrade {
     private PrioQueue<Bid> sellersQueue;
@@ -37,13 +39,13 @@ public class StockTrade {
     }
     
     public StockTrade() {
-        sellersQueue=new BinHeap(/*TODO ARGUMENT*/new SellersComparator<Bid>());
-        buyersQueue = new BinHeap(/*TODO ARGUMENT*/new BuyersComparator<Bid>());
+        sellersQueue=new BinHeap(/*TODO ARGUMENT*/new SellersComparator());
+        buyersQueue = new BinHeap(/*TODO ARGUMENT*/new BuyersComparator());
         
     }
 
     public Transaction placeSellBid(Bid bid) {
-        Iterator<Bid> iter = new sellersBidIterator();
+        Iterator<Bid> iter = sellBidsIterator();
         while(iter.hasNext()){
             Bid temp = iter.next();
             if(bid.name.equals(temp.name)){
@@ -54,7 +56,7 @@ public class StockTrade {
             
         }
         sellersQueue.add(bid);
-        Iterator<Bid> iter = new buyBidsIterator();
+        iter = buyBidsIterator();
         while(iter.hasNext()){
             Bid buyTemp=iter.next();
             if(bid.price<=buyTemp.price){
@@ -69,7 +71,7 @@ public class StockTrade {
         
     }
     public Transaction placeBuyBid(Bid bid) {
-        Iterator<Bid> iter= new buyBidsIterator();
+        Iterator<Bid> iter= buyBidsIterator();
         while(iter.hasNext()){
             Bid temp=iter.next();
             if(bid.name.equals(temp.name)){
@@ -77,9 +79,9 @@ public class StockTrade {
             }
         }
         buyersQueue.add(bid);
-        Iterator<Bid> iter= new sellersBidIterator();
+        iter= sellBidsIterator();
         while(iter.hasNext()){
-            Bid temp =iter.next();
+            Bid temp =iter.next();
             if(bid.price>=temp.price){
                 buyersQueue.remove(bid);
                 sellersQueue.remove(temp);
