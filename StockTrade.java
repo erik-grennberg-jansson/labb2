@@ -37,8 +37,8 @@ public class StockTrade {
     }
     
     public StockTrade() {
-        sellersQueue=new BinHeap(/*TODO ARGUMENT*/new SellersComparator());
-        buyersQueue = new BinHeap(/*TODO ARGUMENT*/new BuyersComparator());
+        sellersQueue=new BinHeap(/*TODO ARGUMENT*/new SellersComparator<Bid>());
+        buyersQueue = new BinHeap(/*TODO ARGUMENT*/new BuyersComparator<Bid>());
         
     }
 
@@ -69,8 +69,24 @@ public class StockTrade {
         
     }
     public Transaction placeBuyBid(Bid bid) {
-        
-        
+        Iterator<Bid> iter= new buyBidsIterator();
+        while(iter.hasNext()){
+            Bid temp=iter.next();
+            if(bid.name.equals(temp.name)){
+                buyersQueue.remove(temp);
+            }
+        }
+        buyersQueue.add(bid);
+        Iterator<Bid> iter= new sellersBidIterator();
+        while(iter.hasNext()){
+            Bid temp =iter.next();
+            if(bid.price>=temp.price){
+                buyersQueue.remove(bid);
+                sellersQueue.remove(temp);
+                return new Transaction(temp.name,bid.name,bid.price);
+            }
+        }
+        return null;
     }
 
     public Iterator<Bid> sellBidsIterator() {
