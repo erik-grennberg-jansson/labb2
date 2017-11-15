@@ -21,9 +21,10 @@ public class Bid {
 	public int hashCode() {
         return Objects.hash(name, price);
     }
-
+    
     @Override
-	public String toString() {
+    public String toString() {
         return "new Bid(\"" + name + "\", " + price + ")";
     }
+    
 }
