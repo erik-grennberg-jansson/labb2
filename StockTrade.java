@@ -11,10 +11,10 @@ public class StockTrade {
             int first=bid1.price;
             int second= bid2.price;
             if(first<second){
-                return 1;
-            }
-            else if(second<first){
                 return -1;
+            }
+            else if(first>second){
+                return 1;
             }
             else{
                 return 0;
@@ -26,10 +26,10 @@ public class StockTrade {
         public int compare(Bid bid1, Bid bid2){
             int first=bid1.price;
             int second= bid2.price;
-            if(first<second){
+            if(first>second){
                 return -1;
             }
-            else if(second<first){
+            else if(first<second){
                 return 1;
             }
             else{
