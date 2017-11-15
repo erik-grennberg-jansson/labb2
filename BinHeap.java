@@ -60,7 +60,9 @@ public class BinHeap<E> implements PrioQueue<E>{
 	    for(int i=0;i<arrayRep.size();i++){
 		if(comp.compare(e,arrayRep.get(i))==0){
 		    swap(i,arrayRep.size()-1);
+		    /*
 		    E tmp = arrayRep.remove(arrayRep.size()-1);
+		   
 		    if(comp.compare(tmp,arrayRep.get(i))>0){
 			System.out.println("ey");
 			bubbleDown(i);
@@ -69,7 +71,12 @@ public class BinHeap<E> implements PrioQueue<E>{
 			bubbleUp(i);
 		    }// else
 			//	bubbleDown(i);
-		    break;
+			break;*/
+		    if(comp.compare(arrayRep.get(i),arrayRep.get((i-1)/2))<0){
+			bubbleUp(i);
+		    }else{
+			bubbleDown(i);
+		    }
 		}
 	    }
 	}
