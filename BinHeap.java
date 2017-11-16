@@ -110,7 +110,10 @@ public class BinHeap<E> implements PrioQueue<E>{
 					swap(currentIndex,childIndex);
 					currentIndex=childIndex;
 
-				}else{ break;}
+				}else{
+                    break;
+                    
+                }
 				   
 				}
 				return;
